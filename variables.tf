@@ -34,3 +34,9 @@ variable "name_tag" {
    description = "Name of the EC2 instance"
    default     = "My EC2 Instance"
 }
+
+variable "team_member_ips" {
+ description = "List of team members public IP addresses for SSH access"
+ type        = list(string)
+ default     = ["24.130.157.178/32", "67.167.82.76/32"]  # team members public IPs
+}
