@@ -7,28 +7,22 @@ resource "aws_instance" "public_instance" {
   ami           = var.ami
   instance_type = var.instance_type
   key_name      = aws_key_pair.autodeploy.key_name
-  vpc_security_group_ids = [aws_security_group.ssh_access.id]
 
   tags = {
     Name = var.name_tag
   }
 }
 
-resource "aws_security_group" "ssh_access" {
- name        = "ssh_access"
- description = "Security group for SSH access"
+# New EBS volume configuration
+resource "aws_ebs_volume" "extra_volume" {
+ availability_zone = "${aws_instance.public_instance.availability_zone}"
+ size              = 10  # Size of the volume in GB
+ type              = "gp2"  # General Purpose SSD
+}
 
- ingress {
-   from_port   = 22
-   to_port     = 22
-   protocol    = "tcp"
-   cidr_blocks = var.team_member_ips
- }
-
- egress {
-   from_port   = 0
-   to_port     = 0
-   protocol    = "-1"
-   cidr_blocks = ["0.0.0.0/0"]
- }
+# Attach the new volume to the EC2 instance
+resource "aws_volume_attachment" "extra_volume_attachment" {
+ device_name = "/dev/sdh"
+ volume_id   = "${aws_ebs_volume.extra_volume.id}"
+ instance_id = "${aws_instance.public_instance.id}"
 }
