@@ -31,10 +31,4 @@ resource "aws_subnet" "my_subnet" {
   tags = {
     Name = "MySubnet"
   }
-provisioner "remote-exec" {
-    inline = [
-      "sudo apt-get update",
-      "sudo apt-get install -y apache2",
-      "sudo systemctl start apache2"
-    ]
 }
