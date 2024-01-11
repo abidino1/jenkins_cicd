@@ -56,9 +56,5 @@ variable "availability_zone" {
   default     = "us-east-1a"
 }
 
-variable "private_key_path" {
-  description = "Path to the private key file"
-  type        = string
-  default     = "~/Downloads/UbuntuKey.pem"  # Set your default path here
-}
+
 
