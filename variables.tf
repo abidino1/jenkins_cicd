@@ -57,7 +57,8 @@ variable "availability_zone" {
 }
 
 variable "private_key_path" {
- description = "~/Downloads/UbuntuKey.pem"
- type        = string
+  description = "Path to the private key file"
+  type        = string
+  default     = "~/Downloads/UbuntuKey.pem"  # Set your default path here
 }
 
