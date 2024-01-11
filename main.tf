@@ -14,21 +14,12 @@ resource "aws_instance" "public_instance" {
   }
 }
 
-resource "aws_vpc" "my_vpc" {
-  cidr_block           = var.vpc_cidr
-  enable_dns_hostnames = true
-  enable_dns_support   = true
+user_data = <<-EOF
+              #!/bin/bash
+              sudo apt-get update
+              sudo apt-get install -y apache2
+              EOF
 
   tags = {
-    Name = "MyVPC"
+    Name = "WebServer"
   }
-}
-resource "aws_subnet" "my_subnet" {
-  vpc_id            = aws_vpc.my_vpc.id
-  cidr_block        = var.subnet_cidr
-  availability_zone = var.availability_zone
-
-  tags = {
-    Name = "MySubnet"
-  }
-}
