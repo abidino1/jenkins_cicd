@@ -7,10 +7,6 @@ resource "aws_instance" "public_instance" {
   ami           = var.ami
   instance_type = var.instance_type
   key_name      = aws_key_pair.autodeploy.key_name
-  subnet_id              = aws_subnet.my_subnet.id
-
-  tags = {
-    Name = var.name_tag
   }
 }
 
@@ -21,5 +17,5 @@ user_data = <<-EOF
               EOF
 
   tags = {
-    Name = "WebServer"
+    Name = var.name_tag
   }
