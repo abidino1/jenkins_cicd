@@ -13,6 +13,13 @@ resource "aws_instance" "public_instance" {
     Name = var.name_tag
   }
 
+  connection {
+    type = "ssh"
+    user = "ubuntu"
+    private_key = file(var.private_key_path)
+    host = self.public_ip
+  }
+
   provisioner "remote-exec" {
    inline = [
      "sudo apt-get update",
