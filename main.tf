@@ -10,7 +10,7 @@ resource "aws_instance" "public_instance" {
   
   # # subnet_id              = aws_subnet.my_subnet.id
   # associate_public_ip_address = true
-  # vpc_security_group_ids = [aws_security_group.ssh_access.id]
+  vpc_security_group_ids = [aws_security_group.ssh_access.id]
 
   tags = {
     Name = var.name_tag
@@ -55,30 +55,30 @@ resource "aws_instance" "public_instance" {
 #   }
 #}
 
-# resource "aws_security_group" "ssh_access" {
-#  name        = "ssh_access"
-#  description = "Security group for SSH access"
-#  vpc_id = "vpc-07fc389088fd4d1cb"
+resource "aws_security_group" "ssh_access" {
+ name        = "ssh_access"
+ description = "Security group for SSH access"
+ vpc_id = "vpc-07fc389088fd4d1cb"
 
-#  ingress {
-#    from_port   = 22
-#    to_port     = 22
-#    protocol    = "tcp"
-#    cidr_blocks = var.team_member_ips
-#  }
+ ingress {
+   from_port   = 22
+   to_port     = 22
+   protocol    = "tcp"
+   cidr_blocks = var.team_member_ips
+ }
 
-#  ingress {
-#    description = "http"
-#    from_port   = 80
-#    to_port     = 80
-#    protocol    = "tcp"
-#    cidr_blocks = var.team_member_ips
-#  }
+ ingress {
+   description = "http"
+   from_port   = 80
+   to_port     = 80
+   protocol    = "tcp"
+   cidr_blocks = var.team_member_ips
+ }
 
-#  egress {
-#    from_port   = 0
-#    to_port     = 0
-#    protocol    = "-1"
-#    cidr_blocks = ["0.0.0.0/0"]
-#  }
-# }
+ egress {
+   from_port   = 0
+   to_port     = 0
+   protocol    = "-1"
+   cidr_blocks = ["0.0.0.0/0"]
+ }
+}
