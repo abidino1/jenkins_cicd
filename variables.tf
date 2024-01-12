@@ -59,5 +59,5 @@ variable "availability_zone" {
 variable "private_key_path" {
   description = "Path to the private key file"
   type = string
-  default = "/var/jenkins_home/Downloads/UbuntuKey.pem"
+  default = "/var/jenkins_home/.ssh/id_rsa.pub"
 }
