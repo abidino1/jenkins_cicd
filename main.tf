@@ -32,25 +32,25 @@ resource "aws_instance" "public_instance" {
  }
 }
 
-resource "aws_vpc" "my_vpc" {
-  cidr_block           = var.vpc_cidr
-  enable_dns_hostnames = true
-  enable_dns_support   = true
+# resource "aws_vpc" "my_vpc" {
+#   cidr_block           = var.vpc_cidr
+#   enable_dns_hostnames = true
+#   enable_dns_support   = true
 
-  tags = {
-    Name = "MyVPC"
-  }
-}
+#   tags = {
+#     Name = "MyVPC"
+#   }
+# }
 
-resource "aws_subnet" "my_subnet" {
-  vpc_id            = aws_vpc.my_vpc.id
-  cidr_block        = var.subnet_cidr
-  availability_zone = var.availability_zone
+# resource "aws_subnet" "my_subnet" {
+#   vpc_id            = aws_vpc.my_vpc.id
+#   cidr_block        = var.subnet_cidr
+#   availability_zone = var.availability_zone
 
-tags = {
-Name = "MySubnet"
-  }
-}
+# tags = {
+# Name = "MySubnet"
+#   }
+#}
 
 resource "aws_security_group" "ssh_access" {
  name        = "ssh_access"
