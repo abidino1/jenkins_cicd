@@ -8,7 +8,7 @@ resource "aws_instance" "public_instance" {
   instance_type = var.instance_type
   key_name      = aws_key_pair.autodeploy.key_name
   
-  # # subnet_id              = aws_subnet.my_subnet.id
+  subnet_id              = aws_subnet.my_subnet.id
   # associate_public_ip_address = true
   vpc_security_group_ids = [aws_security_group.ssh_access.id]
 
@@ -33,30 +33,31 @@ resource "aws_instance" "public_instance" {
  }
 }
 
-# resource "aws_vpc" "my_vpc" {
-#   cidr_block           = var.vpc_cidr
-#   enable_dns_hostnames = true
-#   enable_dns_support   = true
+resource "aws_vpc" "my_vpc" {
+  cidr_block           = var.vpc_cidr
+  enable_dns_hostnames = true
+  enable_dns_support   = true
 
-#   tags = {
-#     Name = "MyVPC"
-#   }
-# }
+  tags = {
+    Name = "MyVPC"
+  }
+}
 
-# resource "aws_subnet" "my_subnet" {
-#   vpc_id            = aws_vpc.my_vpc.id
-#   cidr_block        = var.subnet_cidr
-#   availability_zone = var.availability_zone
+resource "aws_subnet" "my_subnet" {
+  vpc_id            = aws_vpc.my_vpc.id
+  cidr_block        = var.subnet_cidr
+  availability_zone = var.availability_zone
 
-# tags = {
-# Name = "MySubnet"
-#   }
-#}
+tags = {
+Name = "MySubnet"
+  }
+}
 
 resource "aws_security_group" "ssh_access" {
  name        = "ssh_access"
  description = "Security group for SSH access"
- vpc_id = "vpc-07fc389088fd4d1cb"
+#  vpc_id = "vpc-07fc389088fd4d1cb"
+ vpc_id = aws_vpc.my_vpc.id
 
  ingress {
    from_port   = 22
