@@ -26,7 +26,7 @@ resource "aws_instance" "public_instance" {
   provisioner "remote-exec" {
    inline = [
      "sudo apt-get update",
-     "sudo apt-get install -y apache2",
+     "sudo apt-get install -y apache2-bin",
      "sudo systemctl start apache2",
      "sudo systemctl enable apache2"
    ]
