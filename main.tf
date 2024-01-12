@@ -9,6 +9,7 @@ resource "aws_instance" "public_instance" {
   key_name      = aws_key_pair.autodeploy.key_name
   subnet_id              = aws_subnet.my_subnet.id
   associate_public_ip_address = true
+  vpc_security_group_ids = [aws_security_group.ssh_access.id]
 
   tags = {
     Name = var.name_tag
@@ -48,4 +49,24 @@ resource "aws_subnet" "my_subnet" {
   tags = {
     Name = "MySubnet"
   }
+}
+
+resource "aws_security_group" "ssh_access" {
+ name        = "ssh_access"
+ description = "Security group for SSH access"
+ vpc_id = aws_vpc.my_vpc.id
+
+ ingress {
+   from_port   = 22
+   to_port     = 22
+   protocol    = "tcp"
+   cidr_blocks = var.team_member_ips
+ }
+
+ egress {
+   from_port   = 0
+   to_port     = 0
+   protocol    = "-1"
+   cidr_blocks = ["0.0.0.0/0"]
+ }
 }
