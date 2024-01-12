@@ -8,10 +8,9 @@ resource "aws_instance" "public_instance" {
   instance_type = var.instance_type
   key_name      = aws_key_pair.autodeploy.key_name
   
-  subnet_id              = "subnet-075bf3c14fe10e592"
+  # # subnet_id              = aws_subnet.my_subnet.id
   # associate_public_ip_address = true
-  # vpc_security_group_ids = [aws_security_group.ssh_access.id]
-  vpc_security_group_ids = ["sg-0ba467f3aa88b42ab"]
+  vpc_security_group_ids = [aws_security_group.ssh_access.id]
 
   tags = {
     Name = var.name_tag
@@ -26,8 +25,10 @@ resource "aws_instance" "public_instance" {
 
   provisioner "remote-exec" {
    inline = [
-     "sudo apt-get update",
-     "sudo apt-get install -f -y apache2",
+     "sudo apt-get remove -y needrestart",
+     "sudo apt update -y",
+     "sudo apt upgrade -y",
+     "sudo apt install -f -y apache2",
      "sudo systemctl start apache2",
      "sudo systemctl enable apache2"
    ]
@@ -52,33 +53,32 @@ resource "aws_instance" "public_instance" {
 # tags = {
 # Name = "MySubnet"
 #   }
-# }
+#}
 
-# resource "aws_security_group" "ssh_access" {
-#  name        = "ssh_access"
-#  description = "Security group for SSH access"
-# #  vpc_id = "vpc-07fc389088fd4d1cb"
-#  vpc_id = aws_vpc.my_vpc.id
+resource "aws_security_group" "ssh_access" {
+ name        = "ssh_access"
+ description = "Security group for SSH access"
+ vpc_id = "vpc-07fc389088fd4d1cb"
 
-#  ingress {
-#    from_port   = 22
-#    to_port     = 22
-#    protocol    = "tcp"
-#    cidr_blocks = var.team_member_ips
-#  }
+ ingress {
+   from_port   = 22
+   to_port     = 22
+   protocol    = "tcp"
+   cidr_blocks = var.team_member_ips
+ }
 
-#  ingress {
-#    description = "http"
-#    from_port   = 80
-#    to_port     = 80
-#    protocol    = "tcp"
-#    cidr_blocks = var.team_member_ips
-#  }
+ ingress {
+   description = "http"
+   from_port   = 80
+   to_port     = 80
+   protocol    = "tcp"
+   cidr_blocks = var.team_member_ips
+ }
 
-#  egress {
-#    from_port   = 0
-#    to_port     = 0
-#    protocol    = "-1"
-#    cidr_blocks = ["0.0.0.0/0"]
-#  }
-# }
+ egress {
+   from_port   = 0
+   to_port     = 0
+   protocol    = "-1"
+   cidr_blocks = ["0.0.0.0/0"]
+ }
+}
