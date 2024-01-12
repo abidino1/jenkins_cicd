@@ -59,8 +59,16 @@ resource "aws_security_group" "ssh_access" {
  vpc_id = "vpc-07fc389088fd4d1cb"
 
  ingress {
-   from_port   = 0
-   to_port     = 0
+   from_port   = 22
+   to_port     = 22
+   protocol    = "tcp"
+   cidr_blocks = var.team_member_ips
+ }
+
+ ingress {
+   description = "http"
+   from_port   = 80
+   to_port     = 80
    protocol    = "tcp"
    cidr_blocks = var.team_member_ips
  }
