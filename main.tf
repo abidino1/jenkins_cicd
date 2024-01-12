@@ -7,7 +7,7 @@ resource "aws_instance" "public_instance" {
   ami           = var.ami
   instance_type = var.instance_type
   key_name      = aws_key_pair.autodeploy.key_name
-  subnet_id              = aws_subnet.my_subnet.id
+  # subnet_id              = aws_subnet.my_subnet.id
   associate_public_ip_address = true
   vpc_security_group_ids = [aws_security_group.ssh_access.id]
 
@@ -41,15 +41,16 @@ resource "aws_vpc" "my_vpc" {
     Name = "MyVPC"
   }
 }
-resource "aws_subnet" "my_subnet" {
-  vpc_id            = aws_vpc.my_vpc.id
-  cidr_block        = var.subnet_cidr
-  availability_zone = var.availability_zone
 
-  tags = {
-    Name = "MySubnet"
-  }
-}
+# resource "aws_subnet" "my_subnet" {
+#   vpc_id            = aws_vpc.my_vpc.id
+#   cidr_block        = var.subnet_cidr
+#   availability_zone = var.availability_zone
+
+#   tags = {
+#     Name = "MySubnet"
+#   }
+# }
 
 resource "aws_security_group" "ssh_access" {
  name        = "ssh_access"
