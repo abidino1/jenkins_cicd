@@ -8,6 +8,7 @@ resource "aws_instance" "public_instance" {
   instance_type = var.instance_type
   key_name      = aws_key_pair.autodeploy.key_name
   subnet_id              = aws_subnet.my_subnet.id
+  associate_public_ip_address = true
 
   tags = {
     Name = var.name_tag
@@ -17,7 +18,7 @@ resource "aws_instance" "public_instance" {
     type = "ssh"
     user = "ubuntu"
     private_key = file(var.private_key_path)
-    host = self.public_dns
+    host = self.public_ip
   }
 
   provisioner "remote-exec" {
