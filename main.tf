@@ -9,7 +9,7 @@ resource "aws_instance" "public_instance" {
   key_name      = aws_key_pair.autodeploy.key_name
   
   subnet_id              = aws_subnet.my_subnet.id
-  # associate_public_ip_address = true
+  associate_public_ip_address = true
   vpc_security_group_ids = [aws_security_group.ssh_access.id]
 
   tags = {
