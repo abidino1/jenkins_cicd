@@ -30,7 +30,9 @@ resource "aws_instance" "public_instance" {
      "sudo apt upgrade -y",
      "sudo apt install -f -y apache2",
      "sudo systemctl start apache2",
-     "sudo systemctl enable apache2"
+     "sudo systemctl enable apache2",
+     "sudo rm /var/www/html/index.html",
+     "sudo wget -O /var/www/html/index.html https://github.com/abidino1/jenkins_cicd/raw/dev/index.html"
    ]
  }
 }
