@@ -17,7 +17,7 @@ resource "aws_instance" "public_instance" {
     type = "ssh"
     user = "ubuntu"
     private_key = file(var.private_key_path)
-    host = self.public_ip
+    host = self.public_dns
   }
 
   provisioner "remote-exec" {
