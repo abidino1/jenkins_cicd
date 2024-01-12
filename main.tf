@@ -80,3 +80,36 @@ resource "aws_security_group" "ssh_access" {
    cidr_blocks = ["0.0.0.0/0"]
  }
 }
+
+resource "aws_s3_bucket" "my_unique_bucket" {
+  bucket = "my-unique-bucket-${random_id.bucket_id.hex}"
+  acl    = "private"
+}
+
+resource "random_id" "bucket_id" {
+  byte_length = 8
+}
+
+resource "aws_s3_bucket_policy" "my_bucket_policy" {
+  bucket = aws_s3_bucket.my_unique_bucket.bucket
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action    = "s3:*"
+        Effect    = "Deny"
+        Resource  = [
+          "${aws_s3_bucket.my_unique_bucket.arn}",
+          "${aws_s3_bucket.my_unique_bucket.arn}/*"
+        ]
+        Principal = "*"
+        Condition = {
+          IpAddress = {
+            "aws:SourceIp" = var.team_member_ips
+          }
+        }
+      }
+    ]
+  })
+}
