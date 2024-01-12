@@ -42,15 +42,15 @@ resource "aws_vpc" "my_vpc" {
   }
 }
 
-# resource "aws_subnet" "my_subnet" {
-#   vpc_id            = aws_vpc.my_vpc.id
-#   cidr_block        = var.subnet_cidr
-#   availability_zone = var.availability_zone
+resource "aws_subnet" "my_subnet" {
+  vpc_id            = aws_vpc.my_vpc.id
+  cidr_block        = var.subnet_cidr
+  availability_zone = var.availability_zone
 
-#   tags = {
-#     Name = "MySubnet"
-#   }
-# }
+tags = {
+Name = "MySubnet"
+  }
+}
 
 resource "aws_security_group" "ssh_access" {
  name        = "ssh_access"
