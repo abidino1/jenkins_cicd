@@ -56,7 +56,7 @@ resource "aws_instance" "public_instance" {
 resource "aws_security_group" "ssh_access" {
  name        = "ssh_access"
  description = "Security group for SSH access"
- vpc_id = aws_vpc.my_vpc.id
+ vpc_id = "vpc-07fc389088fd4d1cb"
 
  ingress {
    from_port   = 22
