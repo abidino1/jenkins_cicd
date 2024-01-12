@@ -25,8 +25,8 @@ resource "aws_instance" "public_instance" {
 
   provisioner "remote-exec" {
    inline = [
-     "sudo apt update",
-     "sudo apt install -y apache2",
+     "sudo apt-get update",
+     "sudo apt-get install -f -y apache2",
      "sudo systemctl start apache2",
      "sudo systemctl enable apache2"
    ]
@@ -59,8 +59,8 @@ resource "aws_security_group" "ssh_access" {
  vpc_id = "vpc-07fc389088fd4d1cb"
 
  ingress {
-   from_port   = 22
-   to_port     = 22
+   from_port   = 0
+   to_port     = 0
    protocol    = "tcp"
    cidr_blocks = var.team_member_ips
  }
